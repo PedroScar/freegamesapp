@@ -135,24 +135,34 @@ fun GameCard(game: GameVO, cardClick: (Int) -> Unit) {
         animate = false,
         clickable = { cardClick.invoke(game.id) }
     ) {
-        GameColumnDefault {
-            GameTitle(text = game.title)
+        Column(modifier = Modifier.fillMaxWidth()) {
             GameImage(imageUrl = game.thumbnail)
-            GameTags(genre = game.genre, platform = game.platform)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Text(
+                    text = game.title,
+                    style = MaterialTheme.typography.h5,
+                    color = MaterialTheme.colors.primaryVariant,
+                    modifier = Modifier
+                        .weight(2f)
+                        .fillMaxWidth()
+                )
+                Column(
+                    modifier = Modifier
+                        .weight(1.3f)
+                        .wrapContentSize()
+                ) {
+                    GameTextBody(text = game.genre)
+                    GameTextBody(text = game.platform)
+                }
+            }
         }
-    }
-}
-
-@Composable
-fun GameTags(genre: String, platform: String) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp)
-    ) {
-        GameTextBody(text = genre)
-        GameTextBody(text = platform)
     }
 }
 
@@ -160,6 +170,14 @@ fun GameTags(genre: String, platform: String) {
 @Composable
 fun DefaultPreview() {
     FreeGamesAppTheme {
-        MainListScreen {}
+        GameCard(
+            GameVO(
+                id = 0,
+                title = "String",
+                thumbnail = "String",
+                genre = "String",
+                platform = "String",
+            )
+        ) { }
     }
 }

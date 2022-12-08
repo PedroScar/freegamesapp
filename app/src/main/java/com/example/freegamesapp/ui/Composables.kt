@@ -36,7 +36,7 @@ fun GameCardDefault(
     content: @Composable () -> Unit
 ) {
     Card(
-        shape = MaterialTheme.shapes.medium,
+        shape = MaterialTheme.shapes.small,
         backgroundColor = MaterialTheme.colors.background,
         elevation = 4.dp,
         modifier = Modifier
@@ -50,18 +50,16 @@ fun GameCardDefault(
 }
 
 @Composable
-fun GameColumnDefault(horizontalPadding: Dp = 16.dp, content: @Composable ColumnScope.() -> Unit) {
+fun GameColumnDefault(
+    padding: Dp = 16.dp,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Column(
+        content = content,
         modifier = Modifier
-            .padding(
-                top = 10.dp,
-                bottom = 16.dp,
-                start = horizontalPadding,
-                end = horizontalPadding
-            )
+            .padding(top = padding, bottom = padding, start = padding, end = padding)
             .fillMaxWidth()
             .wrapContentHeight(),
-        content = content
     )
 }
 
@@ -97,29 +95,21 @@ fun GameImage(imageUrl: String) {
             contentDescription = "Game image",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
-                .padding(top = 8.dp)
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
-                .clip(MaterialTheme.shapes.large)
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colors.onSurface,
-                    shape = MaterialTheme.shapes.large
-                )
+                .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
         )
     }
 }
 
 @Composable
-fun GameTitle(shouldAlign: Boolean = true, text: String) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+fun GameTitle(text: String) {
+    Column(modifier = Modifier.wrapContentSize()) {
         Text(
             text = text,
             style = MaterialTheme.typography.h5,
             color = MaterialTheme.colors.primaryVariant,
-            modifier = Modifier
-                .conditional(shouldAlign) { align(Alignment.CenterHorizontally) }
-
+            modifier = Modifier.wrapContentSize()
         )
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -55,7 +56,7 @@ fun DetailsScreen(gameId: Int, navController: NavHostController) {
 @Composable
 fun GameDetailsAppBar(title: String, iconClickAction: () -> Unit) {
     TopAppBar(
-        title = { GameTitle(shouldAlign = false, text = title) },
+        title = { GameTitle(text = title) },
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 4.dp,
         navigationIcon = {
@@ -76,19 +77,19 @@ fun GameDescriptionCard(game: GameDetailsVO) {
     var isExpanded by remember { mutableStateOf(false) }
 
     GameCardDefault(animate = true, clickable = { isExpanded = !isExpanded }) {
-        GameColumnDefault {
+        GameColumnDefault(padding = 0.dp) {
             GameImage(imageUrl = game.thumbnail)
-            GameTextBody(
-                topPadding = 8.dp,
+            Text(
                 text = if (isExpanded)
                     game.description
                 else
-                    game.shortDescription
+                    game.shortDescription,
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.secondary,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             Icon(
-                modifier = Modifier
-                    .padding(top = 4.dp)
-                    .align(Alignment.CenterHorizontally),
+                modifier = Modifier.align(Alignment.CenterHorizontally),
                 contentDescription = "Expand row icon",
                 imageVector = if (isExpanded)
                     Icons.Filled.KeyboardArrowUp
@@ -131,7 +132,7 @@ fun GameSpecsCard(game: GameDetailsVO) {
 @Composable
 fun GameScreenshotsCard(images: List<String>) {
     GameCardDefault(animate = true) {
-        GameColumnDefault(horizontalPadding = 0.dp) {
+        GameColumnDefault(padding = 0.dp) {
             GameCardSubtitle(text = "Screenshots")
             LazyRow {
                 items(images) { image ->
